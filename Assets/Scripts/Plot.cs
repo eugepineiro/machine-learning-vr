@@ -26,21 +26,23 @@ public class Plot : MonoBehaviour
     private Vector3 _initialPosition;
     private Quaternion _initialRotation;
     private Vector3 _intialScale;
+	private double _maxPosition;
     void Start()
     {
         _movementController = GetComponent<MovementController>(); 
         _initialPosition = transform.localPosition;
         _initialRotation = transform.rotation;
         _intialScale = transform.localScale;
+		_maxPosition = transform.localPosition.y;
     }
 
     void Update()
     {
         /* Translate */ 
-        if (Input.GetKey(_moveUp)) _movementController.Travel(new Vector3(0, 1, 0));
-        if (Input.GetKey(_moveDown)) _movementController.Travel(new Vector3(0, -1, 0));
-        if (Input.GetKey(_moveLeft)) _movementController.Travel(new Vector3(-1, 0, 0));
-        if (Input.GetKey(_moveRight)) _movementController.Travel(new Vector3(1, 0, 0));
+        if (Input.GetKey(_moveUp) && transform.position.y < _maxPosition*2) _movementController.Travel(new Vector3(0, 1, 0));
+        if (Input.GetKey(_moveDown) && transform.position.y > _maxPosition) _movementController.Travel(new Vector3(0, -1, 0));
+        if (Input.GetKey(_moveLeft) && transform.position.x > -_maxPosition*2) _movementController.Travel(new Vector3(-1, 0, 0));
+        if (Input.GetKey(_moveRight) && transform.position.x < _maxPosition*2) _movementController.Travel(new Vector3(1, 0, 0));
          
         /* Rotate */
         if (Input.GetKey(_rotateUp)) _movementController.Rotate(new Vector3(0, 1, 0));
