@@ -2353,7 +2353,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2043102068
 Transform:
@@ -2379,7 +2379,7 @@ MeshCollider:
   m_GameObject: {fileID: 2043102067}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -2595,9 +2595,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 503203712870971631, guid: 71ca70e3345b240b78a7bea3cb024553, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1013386216320243856, guid: 71ca70e3345b240b78a7bea3cb024553, type: 3}
       propertyPath: m_Name
       value: Dome
       objectReference: {fileID: 0}
+    - target: {fileID: 2936153640735736668, guid: 71ca70e3345b240b78a7bea3cb024553, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a45c85df21713253496849b9e782043d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71ca70e3345b240b78a7bea3cb024553, type: 3}
