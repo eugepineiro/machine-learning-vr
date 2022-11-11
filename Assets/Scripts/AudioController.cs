@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class AudioController : MonoBehaviour
 {
+    private const int TOTAL_CLUSTERS = 4;
+
+    private List<List<float>> _centroids;
+    private List<AudioClip> _audioClips;
     // Factory Pattern (spawner:audios)
     [SerializeField] private Audio audioPrefab;
-    private const int TOTAL_CLUSTERS = 5;
+  
     private Spawner<Audio> _audioFactory = new Spawner<Audio>();
     public List<Audio> AudioInstances => _audioInstances;
     private List<Audio> _audioInstances = new List<Audio>();
@@ -16,8 +20,8 @@ public class AudioController : MonoBehaviour
     private AudioClip audio1;
     void Start()
     {
-        fetchAudioClips();
-        
+        _audioClips = getAudioClips();
+        _centroids = getCentroids(); 
         _audioParent = GameObject.Find("Audios").transform;
         
         for (int i = 0; i < TOTAL_CLUSTERS; i++)
@@ -26,9 +30,10 @@ public class AudioController : MonoBehaviour
             audio.transform.parent = _audioParent;
             
             // Set Audio properties
-            audio.transform.position = _audioInitialPosition + new Vector3(0.5F*i,0,0.2F);
+            var centroid = _centroids[i];
+            audio.transform.position = _audioInitialPosition + new Vector3(centroid[0],centroid[1]+12,centroid[2]);
             _audioSource = audio.GetComponent<AudioSource>();
-            _audioSource.clip = audio1;
+            _audioSource.clip = _audioClips[i];
             _audioSource.Play();
             
             _audioInstances.Add(audio); // Instantiate audio
@@ -36,8 +41,32 @@ public class AudioController : MonoBehaviour
 
     }
     
-    private void fetchAudioClips() {
-        audio1 = Resources.Load<AudioClip>("Audio/piano-mp3/A0");
+    private List<AudioClip> getAudioClips()
+    {
+        List<string> paths = new List<string>() //TODO dont hardcode 
+            { "Audio/piano-mp3/A0", "Audio/piano-mp3/B0", "Audio/piano-mp3/C1", "Audio/piano-mp3/D1" };
         
+        List<AudioClip> audioClips = new List<AudioClip>();
+        for (int i = 0; i < TOTAL_CLUSTERS; i++)
+        {
+            audioClips.Add(Resources.Load<AudioClip>(paths[i])); 
+        }
+
+        return audioClips;
+
+    }
+    
+    private List<List<float>> getCentroids()
+    {
+
+        List<List<float>> centroids = new List<List<float>>();
+ 
+        centroids.Add(new List<float>() {-3.5F, 2, 6.5F}); //TODO dont hardcode
+        centroids.Add(new List<float>() {-2.7F, 4, -7F});
+        centroids.Add(new List<float>() {4.3F, 1.7F, -5.5F});
+        centroids.Add(new List<float>() {6, -3, 2.7F});
+
+        return centroids;
+
     }
 }
