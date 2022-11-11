@@ -1682,6 +1682,7 @@ GameObject:
   - component: {fileID: 1413741860}
   - component: {fileID: 1413741862}
   - component: {fileID: 1413741863}
+  - component: {fileID: 1413741864}
   m_Layer: 0
   m_Name: Plot
   m_TagString: Untagged
@@ -1755,6 +1756,35 @@ MonoBehaviour:
   _zoomIn: 43
   _zoomOut: 45
   _reset: 114
+--- !u!114 &1413741864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413741859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd9ebf1401392e4bbd47fea32f47642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentBakedListener: {fileID: 0}
+  applyReverb: 1
+  reverbType: 0
+  useAllProbeBatches: 0
+  probeBatches: []
+  mTotalDataSize: 0
+  mProbeDataSizes: 
+  mIdentifier:
+    type: 0
+    variation: 0
+    endpointInfluence:
+      center:
+        x: 0
+        y: 0
+        z: 0
+      radius: 0
+  mProbeBatchesUsed: []
 --- !u!1 &1483627033
 GameObject:
   m_ObjectHideFlags: 0
