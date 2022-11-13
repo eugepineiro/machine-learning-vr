@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System;
 
 public class AudioController : MonoBehaviour
 {
     private const int TOTAL_CLUSTERS = 4;
+    
+    private const int TOTAL_AUDIOS = 89;
 
     private List<List<float>> _centroids;
     private List<AudioClip> _audioClips;
@@ -43,13 +47,18 @@ public class AudioController : MonoBehaviour
     
     private List<AudioClip> getAudioClips()
     {
-        List<string> paths = new List<string>() //TODO dont hardcode 
-            { "Audio/piano-mp3/A0", "Audio/piano-mp3/B0", "Audio/piano-mp3/C1", "Audio/piano-mp3/D1" };
-        
+        int audios_amount = (int) TOTAL_AUDIOS / TOTAL_CLUSTERS;
+
+
+        string[] paths = Directory.GetFiles("Assets/Resources/Audio/piano-mp3/", "*.mp3", SearchOption.AllDirectories); //TODO dont hardcode 
+
         List<AudioClip> audioClips = new List<AudioClip>();
-        for (int i = 0; i < TOTAL_CLUSTERS; i++)
+        for (int i = 1; i <= TOTAL_CLUSTERS; i++)
         {
-            audioClips.Add(Resources.Load<AudioClip>(paths[i])); 
+          
+            string path = Path.GetFileNameWithoutExtension(paths[i * audios_amount]);
+            
+            audioClips.Add(Resources.Load<AudioClip>( "Audio/piano-mp3/" + path)); 
         }
 
         return audioClips;
