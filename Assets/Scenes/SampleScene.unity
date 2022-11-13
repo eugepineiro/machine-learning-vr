@@ -2114,8 +2114,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3384,7 +3384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e829c87dc2a2ed2419c5f67848317fe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 11400000, guid: 2a011bab5de11df4c81c68931509f73a, type: 2}
+  material: {fileID: 11400000, guid: a086f686223eed942816c70be67841b0, type: 2}
   exportAllChildren: 0
   terrainSimplificationLevel: 0
 --- !u!1001 &202992613587158920
@@ -3544,9 +3544,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3874433827295449557, guid: 90accf613259203a081aafeb83fb1767, type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874433827295449557, guid: 90accf613259203a081aafeb83fb1767, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 8bf74d11053c41ed0b3b99c96eed31cc, type: 3}
+      objectReference: {fileID: 8300000, guid: c82e89d7530114749801b99d62fdf5b4, type: 3}
+    - target: {fileID: 3874433827295449557, guid: 90accf613259203a081aafeb83fb1767, type: 3}
+      propertyPath: DopplerLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3874433827295449559, guid: 90accf613259203a081aafeb83fb1767, type: 3}
       propertyPath: m_Name
       value: Audio
