@@ -12,13 +12,13 @@ public class AudioController : MonoBehaviour
 
     private List<List<float>> _centroids;
     private List<AudioClip> _audioClips;
+    
     // Factory Pattern (spawner:audios)
     [SerializeField] private Audio audioPrefab;
   
     private Spawner<Audio> _audioFactory = new Spawner<Audio>();
     public List<Audio> AudioInstances => _audioInstances;
-    private List<Audio> _audioInstances = new List<Audio>();
-    private Transform _audioParent;
+    private List<Audio> _audioInstances = new List<Audio>(); 
     private Vector3 _audioInitialPosition = new Vector3(0, 0, 0);
     private AudioSource _audioSource;
     private AudioClip audio1;
@@ -26,25 +26,27 @@ public class AudioController : MonoBehaviour
     {
         _audioClips = getAudioClips();
         _centroids = getCentroids(); 
-        _audioParent = GameObject.Find("Audios").transform;
         
         for (int i = 0; i < TOTAL_CLUSTERS; i++)
         {
             var audio = _audioFactory.Create(audioPrefab);
-            audio.transform.parent = _audioParent;
-            
-            // Set Audio properties
             var centroid = _centroids[i];
+            string clusterName = $"Cluster{i+1}";
+
+            // Set Audio properties
+            audio.transform.parent = GameObject.Find(clusterName).transform;
             audio.transform.position = _audioInitialPosition + new Vector3(centroid[0],centroid[1]+12,centroid[2]);
+            audio.name = $"Audio{clusterName}";
+            
             _audioSource = audio.GetComponent<AudioSource>();
             _audioSource.clip = _audioClips[i];
-            _audioSource.Play();
+            //_audioSource.Play();
             
             _audioInstances.Add(audio); // Instantiate audio
         }
 
     }
-    
+
     private List<AudioClip> getAudioClips()
     {
         int audios_amount = (int) TOTAL_AUDIOS / TOTAL_CLUSTERS;
