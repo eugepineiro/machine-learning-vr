@@ -6,7 +6,7 @@ using System;
 
 public class AudioController : MonoBehaviour
 {
-    private const int TOTAL_CLUSTERS = 6;
+    private const int TOTAL_CLUSTERS = 5;
     
     private const int TOTAL_AUDIOS = 89;
 
@@ -76,8 +76,7 @@ public class AudioController : MonoBehaviour
         centroids.Add(new List<float>() {-2.7F, 4, -7F});
         centroids.Add(new List<float>() {4.3F, 1.7F, -5.5F});
         centroids.Add(new List<float>() {6, -3, 2.7F});
-        centroids.Add(new List<float>() {-2, -4, 6.4F});
-        centroids.Add(new List<float>() {-2, 1, -7.4F});
+        centroids.Add(new List<float>() {-2.6F, 0.4F, -7F}); 
 
         return centroids;
 
