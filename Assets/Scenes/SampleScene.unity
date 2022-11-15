@@ -2175,7 +2175,6 @@ GameObject:
   - component: {fileID: 1413741860}
   - component: {fileID: 1413741862}
   - component: {fileID: 1413741863}
-  - component: {fileID: 1413741864}
   m_Layer: 0
   m_Name: Plot
   m_TagString: Untagged
@@ -2244,35 +2243,6 @@ MonoBehaviour:
   _zoomIn: 43
   _zoomOut: 45
   _reset: 114
---- !u!114 &1413741864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1413741859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fd9ebf1401392e4bbd47fea32f47642, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentBakedListener: {fileID: 0}
-  applyReverb: 1
-  reverbType: 0
-  useAllProbeBatches: 0
-  probeBatches: []
-  mTotalDataSize: 0
-  mProbeDataSizes: 
-  mIdentifier:
-    type: 0
-    variation: 0
-    endpointInfluence:
-      center:
-        x: 0
-        y: 0
-        z: 0
-      radius: 0
-  mProbeBatchesUsed: []
 --- !u!1 &1483627033
 GameObject:
   m_ObjectHideFlags: 0
@@ -3550,11 +3520,15 @@ PrefabInstance:
     - target: {fileID: 3874433827295449557, guid: 90accf613259203a081aafeb83fb1767, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: c82e89d7530114749801b99d62fdf5b4, type: 3}
+      objectReference: {fileID: 8300000, guid: f411cde5ff76b88c89faf556ec037308, type: 3}
     - target: {fileID: 3874433827295449557, guid: 90accf613259203a081aafeb83fb1767, type: 3}
       propertyPath: DopplerLevel
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3874433827295449557, guid: 90accf613259203a081aafeb83fb1767, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: 244bb273b824961efaf69dce1da19b78, type: 2}
     - target: {fileID: 3874433827295449559, guid: 90accf613259203a081aafeb83fb1767, type: 3}
       propertyPath: m_Name
       value: Audio

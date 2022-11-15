@@ -6,7 +6,7 @@ using System;
 
 public class AudioController : MonoBehaviour
 {
-    private const int TOTAL_CLUSTERS = 4;
+    private const int TOTAL_CLUSTERS = 6;
     
     private const int TOTAL_AUDIOS = 89;
 
@@ -52,7 +52,7 @@ public class AudioController : MonoBehaviour
         int audios_amount = (int) TOTAL_AUDIOS / TOTAL_CLUSTERS;
 
 
-        string[] paths = Directory.GetFiles("Assets/Resources/Audio/piano-mp3/", "*.mp3", SearchOption.AllDirectories); //TODO dont hardcode 
+        string[] paths = Directory.GetFiles("Assets/Resources/Audio/piano-mp3/", "*.mp3", SearchOption.AllDirectories); 
 
         List<AudioClip> audioClips = new List<AudioClip>();
         for (int i = 1; i <= TOTAL_CLUSTERS; i++)
@@ -76,6 +76,8 @@ public class AudioController : MonoBehaviour
         centroids.Add(new List<float>() {-2.7F, 4, -7F});
         centroids.Add(new List<float>() {4.3F, 1.7F, -5.5F});
         centroids.Add(new List<float>() {6, -3, 2.7F});
+        centroids.Add(new List<float>() {-2, -4, 6.4F});
+        centroids.Add(new List<float>() {-2, 1, -7.4F});
 
         return centroids;
 
