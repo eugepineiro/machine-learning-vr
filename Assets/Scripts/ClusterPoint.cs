@@ -4,7 +4,6 @@ internal class ClusterPoint {
         public float X;
         public float Y;
         public float Z;
-
         public int Cluster;
 
         public static ClusterPoint FromCsv(string csvLine) {
@@ -13,7 +12,7 @@ internal class ClusterPoint {
             point.X = (float) Convert.ToDouble(values[0]);
             point.Y = (float) Convert.ToDouble(values[1]);
             point.Z = (float) Convert.ToDouble(values[2]);
-            point.Cluster = Convert.ToInt32(values[3]);
+            //point.Cluster = Convert.ToInt32(values[3]);
             return point;
         }
 

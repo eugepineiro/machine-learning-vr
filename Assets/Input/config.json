@@ -1,4 +1,4 @@
 {
     "K": 3,
-    "CsvPath": "Assets/Input/kmeans.csv"
+    "CsvPath": "Assets/Input/points.csv"
 }

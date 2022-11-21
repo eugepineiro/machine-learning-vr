@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using ClusteringKMeans;
+using KMeans;
 
 public class Plot : MonoBehaviour
 {
@@ -49,7 +51,8 @@ public class Plot : MonoBehaviour
         _initialRotation = transform.rotation;
         _intialScale = transform.localScale;
 		_maxPosition = transform.localPosition.y;
-
+		
+		
         InitPlot();
     }
 
@@ -65,13 +68,19 @@ public class Plot : MonoBehaviour
                                 .ToList();
 
         Debug.Log(points);
+		
+		Cluster[] clusters = KMeansAlgorithm.Run(points); // KMeans
+		int clusterId = 1;
+        foreach (Cluster cluster in clusters) {
+			foreach (DataVec point in cluster.Points) { 
 
-        foreach (ClusterPoint p in points) {
-            GameObject dataPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            dataPoint.transform.parent = transform;
-            dataPoint.transform.localPosition = new Vector3(p.X, p.Y, p.Z);
-            dataPoint.transform.localRotation = Quaternion.identity;
-            dataPoint.GetComponent<Renderer>().material.color = GetColorByCluster(p.Cluster);
+           		GameObject dataPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            	dataPoint.transform.parent = transform;
+            	dataPoint.transform.localPosition = new Vector3( (float)point.Components[0],(float)point.Components[1],(float) point.Components[2]);
+            	dataPoint.transform.localRotation = Quaternion.identity;
+            	dataPoint.GetComponent<Renderer>().material.color = GetColorByCluster(clusterId);
+			}
+			clusterId++;
         }
     }
 
