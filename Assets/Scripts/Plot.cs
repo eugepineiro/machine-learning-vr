@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using ClusteringKMeans;
 using KMeans;
+using AudioManager;
 
 public class Plot : MonoBehaviour
 {
@@ -30,11 +31,10 @@ public class Plot : MonoBehaviour
     [SerializeField] public GameObject PointPrefab => _pointPrefab;
     [SerializeField] private GameObject _pointPrefab;
 
-
-    
     private Vector3 _horizontalForward;
     private Vector3 _forward;
     private MovementController _movementController;
+	private AudioController _audioController;
     private Vector3 _initialPosition;
     private Quaternion _initialRotation;
     private Vector3 _intialScale;
@@ -47,7 +47,7 @@ public class Plot : MonoBehaviour
         _initialRotation = transform.rotation;
         _intialScale = transform.localScale;
 		_maxPosition = transform.localPosition.y;
-		
+		_audioController = GetComponent<AudioController>();
 		
         InitPlot();
     }
@@ -89,12 +89,13 @@ public class Plot : MonoBehaviour
 		
 		Cluster[] clusters = KMeansAlgorithm.Run(points, config.K); // KMeans
 		int clusterId = 1;
+		List<DataVec> centroids = new List<DataVec>();
         foreach (Cluster cluster in clusters) {
             GameObject clusterGameObject = new GameObject($"Cluster{clusterId}");
             Transform clusterTransform = clusterGameObject.transform;
             clusterTransform.parent = transform;
             clusterTransform.localPosition = Vector3.zero;
-
+			
 			foreach (DataVec point in cluster.Points) { 
            		GameObject dataPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             	dataPoint.transform.parent = clusterTransform;
@@ -108,18 +109,52 @@ public class Plot : MonoBehaviour
 
             clusterGameObject.AddComponent<ClusterBoundsCalculator>();
 			clusterId++;
+			Debug.Log(cluster.Centroid);
+			centroids.Add(cluster.Centroid);
         }
+
+		_audioController.LoadAudios(config.K, centroids);
     }
 
 
     private Color GetColorByCluster(int cluster) {
         Color[] colors = new Color[] { 
-			new Color(0.48F, 0F, 1, 1), 
-			new Color(0.0927F, 0.4852F, 0.2416F, 0),
-			new Color(0.01F, 1F, 0.2F, 1), 
-			new Color(0.0927F, 0.4852F, 0.2416F,1)
+			new Color(0.902F,0.098F,0.294F,1F),
+new Color(0.96F,0.51F,0.188F,1F),
+new Color(1F,1F,0.294F,1F),
+new Color(0.824F,0.96F,0.235F,1F),
+new Color(0.235F,0.706F,0.294F,1F),
+new Color(0.275F,0.941F,0.941F,1F),
+new Color(0F,0.51F,0.784F,1F),
+new Color(0.568F,0.118F,0.706F,1F),
+new Color(0.941F,0.196F,0.902F,1F),
+new Color(0.502F,0.502F,0.502F,1F),
+new Color(0.98F,0.745F,0.831F,1F),
+new Color(1F,0.843F,0.706F,1F),
+new Color(1F,0.98F,0.784F,1F),
+new Color(0.667F,1F,0.765F,1F),
+new Color(0.863F,0.745F,1F,1F),
+new Color(1F,1F,1F,1F),
+new Color(0.502F,0F,0F,1),
+new Color(0.667F,0.431F,0.157F,1F),
+new Color(0.502F,0.502F,0F,1F),
+new Color(0F,0.502F,0.502F,1F),
+new Color(0F,0F,0.502F,1F),
+			new Color(0.48F, 0F, 1, 1), // violeta
+			new Color(0.48F, 0F, 1, 1),	
+			new Color(1, 0, 0, 1), // rojo
+			new Color(0, 1, 0, 1), // verde
+			new Color(0, 0, 1, 1), // azul
+			new Color(1, 0, 0.75F, 1), // rosa
+			new Color(0.004F, 1, 0.996F, 1), // celeste
+			new Color(1, 0.86F, 0.4F, 1), // amarillo 
+			new Color(1, 0.39F, 0.004F, 1), // verde oscuro
+			new Color(1, 0.39F, 0.004F, 1), // bordo  
+			 
 
+			
 		 };
         return colors[cluster - 1];
     }
+
 }

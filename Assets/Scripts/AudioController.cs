@@ -3,39 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
+using KMeans;
+namespace AudioManager
+{
 
 public class AudioController : MonoBehaviour
 {
-    private const int TOTAL_CLUSTERS = 5;
-    
+   
     private const int TOTAL_AUDIOS = 89;
 
     private List<List<float>> _centroids;
     private List<AudioClip> _audioClips;
     
     // Factory Pattern (spawner:audios)
-    [SerializeField] private Audio audioPrefab;
-  
+    [SerializeField] private Audio _audioPrefab;
     private Spawner<Audio> _audioFactory = new Spawner<Audio>();
-    public List<Audio> AudioInstances => _audioInstances;
-    private List<Audio> _audioInstances = new List<Audio>(); 
+    public  List<Audio> AudioInstances => _audioInstances;
+    private  List<Audio> _audioInstances = new List<Audio>(); 
     private Vector3 _audioInitialPosition = new Vector3(0, 0, 0);
     private AudioSource _audioSource;
     private AudioClip audio1;
-    void Start()
+    [SerializeField] public Audio audioPrefab => _audioPrefab;
+ 
+    public void LoadAudios(int kClusters, List<DataVec> _centroids)
     {
-        _audioClips = getAudioClips();
-        _centroids = getCentroids(); 
+        _audioClips = getAudioClips(kClusters);
         
-        for (int i = 0; i < TOTAL_CLUSTERS; i++)
+        for (int i = 0; i < kClusters; i++)
         {
-            var audio = _audioFactory.Create(audioPrefab);
+            var audio = _audioFactory.Create(_audioPrefab);
             var centroid = _centroids[i];
             string clusterName = $"Cluster{i+1}";
 
             // Set Audio properties
             audio.transform.parent = GameObject.Find(clusterName).transform;
-            audio.transform.position = _audioInitialPosition + new Vector3(centroid[0],centroid[1]+12,centroid[2]);
+            audio.transform.localPosition = new Vector3((float)centroid.Components[0],(float)centroid.Components[1],(float) centroid.Components[2]);
             audio.name = $"Audio{clusterName}";
             
             _audioSource = audio.GetComponent<AudioSource>();
@@ -47,15 +49,15 @@ public class AudioController : MonoBehaviour
 
     }
 
-    private List<AudioClip> getAudioClips()
+    private static List<AudioClip> getAudioClips(int kClusters)
     {
-        int audios_amount = (int) TOTAL_AUDIOS / TOTAL_CLUSTERS;
+        int audios_amount = (int) TOTAL_AUDIOS / kClusters;
 
 
         string[] paths = Directory.GetFiles("Assets/Resources/Audio/piano-mp3/", "*.mp3", SearchOption.AllDirectories); 
 
         List<AudioClip> audioClips = new List<AudioClip>();
-        for (int i = 1; i <= TOTAL_CLUSTERS; i++)
+        for (int i = 1; i <= kClusters; i++)
         {
           
             string path = Path.GetFileNameWithoutExtension(paths[i * audios_amount]);
@@ -67,7 +69,7 @@ public class AudioController : MonoBehaviour
 
     }
     
-    private List<List<float>> getCentroids()
+    private static List<List<float>> getCentroids()
     {
 
         List<List<float>> centroids = new List<List<float>>();
@@ -81,4 +83,6 @@ public class AudioController : MonoBehaviour
         return centroids;
 
     }
+}
+    
 }
