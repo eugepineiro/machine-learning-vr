@@ -2338,6 +2338,8 @@ MonoBehaviour:
   _zoomIn: 43
   _zoomOut: 45
   _reset: 114
+  _configFilePath: Assets/Input/config.json
+  _pointPrefab: {fileID: 0}
 --- !u!1 &1483627033
 GameObject:
   m_ObjectHideFlags: 0

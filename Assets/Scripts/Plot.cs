@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class Plot : MonoBehaviour
@@ -19,6 +21,18 @@ public class Plot : MonoBehaviour
     [SerializeField] private KeyCode _zoomIn = KeyCode.Plus;
     [SerializeField] private KeyCode _zoomOut = KeyCode.Minus;
     [SerializeField] private KeyCode _reset = KeyCode.R;
+
+    [SerializeField] public string FilePath => _configFilePath;
+    [SerializeField] private string _configFilePath;
+
+    [SerializeField] public GameObject PointPrefab => _pointPrefab;
+    [SerializeField] private GameObject _pointPrefab;
+
+    private Color GetColorByCluster(int cluster) {
+        Color[] colors = new Color[] { Color.red, Color.blue, Color.green };
+        return colors[cluster - 1];
+    }
+
     
     private Vector3 _horizontalForward;
     private Vector3 _forward;
@@ -34,6 +48,30 @@ public class Plot : MonoBehaviour
         _initialRotation = transform.rotation;
         _intialScale = transform.localScale;
 		_maxPosition = transform.localPosition.y;
+
+        InitPlot();
+    }
+
+    private void InitPlot() {
+        JsonConfig config = JsonUtility.FromJson<JsonConfig>(File.ReadAllText(_configFilePath));
+
+        Debug.Log(config.K);
+        Debug.Log(config.CsvPath);
+
+        List<ClusterPoint> points = File.ReadAllLines(config.CsvPath)
+                                .Skip(1)
+                                .Select(v => ClusterPoint.FromCsv(v))
+                                .ToList();
+
+        Debug.Log(points);
+
+        foreach (ClusterPoint p in points) {
+            GameObject dataPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            dataPoint.transform.parent = transform;
+            dataPoint.transform.localPosition = new Vector3(p.X, p.Y, p.Z);
+            dataPoint.transform.localRotation = Quaternion.identity;
+            dataPoint.GetComponent<Renderer>().material.color = GetColorByCluster(p.Cluster);
+        }
     }
 
     void Update()
