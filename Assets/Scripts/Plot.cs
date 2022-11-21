@@ -90,18 +90,23 @@ public class Plot : MonoBehaviour
 		Cluster[] clusters = KMeansAlgorithm.Run(points, config.K); // KMeans
 		int clusterId = 1;
         foreach (Cluster cluster in clusters) {
-			foreach (DataVec point in cluster.Points) { 
+            GameObject clusterGameObject = new GameObject($"Cluster{clusterId}");
+            Transform clusterTransform = clusterGameObject.transform;
+            clusterTransform.parent = transform;
+            clusterTransform.localPosition = Vector3.zero;
 
+			foreach (DataVec point in cluster.Points) { 
            		GameObject dataPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            	dataPoint.transform.parent = transform;
+            	dataPoint.transform.parent = clusterTransform;
             	dataPoint.transform.localPosition = new Vector3( (float)point.Components[0],(float)point.Components[1],(float) point.Components[2]);
             	dataPoint.transform.localRotation = Quaternion.identity;
 
  				dataPoint.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
 				dataPoint.GetComponent<Renderer>().material.color = Color.black;
 				dataPoint.GetComponent<Renderer>().material.SetColor("_EmissionColor", GetColorByCluster(clusterId));
-            	//dataPoint.GetComponent<Renderer>().material.color = GetColorByCluster(clusterId);
 			}
+
+            clusterGameObject.AddComponent<ClusterBoundsCalculator>();
 			clusterId++;
         }
     }
