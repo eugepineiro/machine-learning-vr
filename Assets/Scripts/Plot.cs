@@ -30,10 +30,6 @@ public class Plot : MonoBehaviour
     [SerializeField] public GameObject PointPrefab => _pointPrefab;
     [SerializeField] private GameObject _pointPrefab;
 
-    private Color GetColorByCluster(int cluster) {
-        Color[] colors = new Color[] { Color.red, Color.blue, Color.green };
-        return colors[cluster - 1];
-    }
 
     
     private Vector3 _horizontalForward;
@@ -54,34 +50,6 @@ public class Plot : MonoBehaviour
 		
 		
         InitPlot();
-    }
-
-    private void InitPlot() {
-        JsonConfig config = JsonUtility.FromJson<JsonConfig>(File.ReadAllText(_configFilePath));
-
-        Debug.Log(config.K);
-        Debug.Log(config.CsvPath);
-
-        List<ClusterPoint> points = File.ReadAllLines(config.CsvPath)
-                                .Skip(1)
-                                .Select(v => ClusterPoint.FromCsv(v))
-                                .ToList();
-
-        Debug.Log(points);
-		
-		Cluster[] clusters = KMeansAlgorithm.Run(points); // KMeans
-		int clusterId = 1;
-        foreach (Cluster cluster in clusters) {
-			foreach (DataVec point in cluster.Points) { 
-
-           		GameObject dataPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            	dataPoint.transform.parent = transform;
-            	dataPoint.transform.localPosition = new Vector3( (float)point.Components[0],(float)point.Components[1],(float) point.Components[2]);
-            	dataPoint.transform.localRotation = Quaternion.identity;
-            	dataPoint.GetComponent<Renderer>().material.color = GetColorByCluster(clusterId);
-			}
-			clusterId++;
-        }
     }
 
     void Update()
@@ -105,5 +73,48 @@ public class Plot : MonoBehaviour
         /* Reset initial postion, rotation and scale */ 
         if (Input.GetKey(_reset)) _movementController.Reset(_initialPosition, _initialRotation, _intialScale);
         
+    }
+	private void InitPlot() {
+        JsonConfig config = JsonUtility.FromJson<JsonConfig>(File.ReadAllText(_configFilePath));
+
+        Debug.Log(config.K);
+        Debug.Log(config.CsvPath);
+
+        List<ClusterPoint> points = File.ReadAllLines(config.CsvPath)
+                                .Skip(1)
+                                .Select(v => ClusterPoint.FromCsv(v))
+                                .ToList();
+
+        Debug.Log(points);
+		
+		Cluster[] clusters = KMeansAlgorithm.Run(points); // KMeans
+		int clusterId = 1;
+        foreach (Cluster cluster in clusters) {
+			foreach (DataVec point in cluster.Points) { 
+
+           		GameObject dataPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            	dataPoint.transform.parent = transform;
+            	dataPoint.transform.localPosition = new Vector3( (float)point.Components[0],(float)point.Components[1],(float) point.Components[2]);
+            	dataPoint.transform.localRotation = Quaternion.identity;
+
+ 				dataPoint.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+				dataPoint.GetComponent<Renderer>().material.color = Color.black;
+				dataPoint.GetComponent<Renderer>().material.SetColor("_EmissionColor", GetColorByCluster(clusterId));
+            	//dataPoint.GetComponent<Renderer>().material.color = GetColorByCluster(clusterId);
+			}
+			clusterId++;
+        }
+    }
+
+
+    private Color GetColorByCluster(int cluster) {
+        Color[] colors = new Color[] { 
+			new Color(0.48F, 0F, 1, 1), 
+			new Color(0.0927F, 0.4852F, 0.2416F, 0),
+			new Color(0.0927F, 0.4852F, 0.2416F, 1), 
+			new Color(0.0927F, 0.4852F, 0.2416F,1)
+
+		 };
+        return colors[cluster - 1];
     }
 }
