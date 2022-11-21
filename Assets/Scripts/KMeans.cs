@@ -12,15 +12,11 @@ namespace ClusteringKMeans
   {
     public static Cluster[] Run(List<ClusterPoint> pointsInput, int kClusters)
     {
-      Debug.Log("Begin k-means clustering");
-       
       List<DataVec> points = MigrateData(pointsInput);
-
-      // First argument of the constructor is a reference to data points. Second argument is k (number of clusters)
-      KMeansClustering cl = new KMeansClustering(points.ToArray(), kClusters);
-
-      // Perform clasification and return results
-      Cluster[] clusters =  cl.Compute(); 
+      
+      KMeansClustering cl = new KMeansClustering(points.ToArray(), kClusters); // Reference to data points and k (number of clusters)
+      
+      Cluster[] clusters =  cl.Compute();  // Perform clasification and return results
 
       return clusters;
 
@@ -34,5 +30,5 @@ namespace ClusteringKMeans
       
       return pts;
     }
-  } // Program
-} // ns
+  }  
+} 

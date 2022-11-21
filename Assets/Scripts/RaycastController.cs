@@ -24,10 +24,9 @@ public class RaycastController : MonoBehaviour
         	{
 				RaycastHit hit = hits[i];
 				Debug.Log($"{hit.transform.gameObject.name}");
+				
         		if (hit.transform.gameObject.name.Contains("Cluster") )
         		{
-            		Debug.Log($"HITTTTTTTTT {hit.transform.gameObject.name}");
-          			label.text = hit.transform.gameObject.name;
             		GameObject audio = GameObject.Find($"Audio{hit.transform.gameObject.name}");
            
             		AudioSource _audioSource = audio.GetComponent<AudioSource>();
@@ -35,9 +34,13 @@ public class RaycastController : MonoBehaviour
             
             		if (!_audioSource.isPlaying) _audioSource.Play();
         		}
+				if (hit.transform.gameObject.name.Contains("Point")) { 
+					label.text = $"{hit.transform.parent.transform.parent.gameObject.name}\nPoint ({hit.transform.parent.transform.localPosition.x}, {hit.transform.parent.transform.localPosition.y}, {hit.transform.parent.transform.localPosition.z})";
+				}
         	
 			}
 		} else {
+			label.text = "";
 			foreach (AudioSource audio in _activeAudioSources) { 
 				audio.Stop();
 			} 

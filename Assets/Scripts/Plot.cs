@@ -100,7 +100,6 @@ public class Plot : MonoBehaviour
             int i = 0;
 			GameObject dataPoint; 
 			foreach (DataVec point in cluster.Points) {
-                //GameObject dataPoint = Instantiate(_dataPointPrefab);
                 
 				GameObject parentLookAt = new GameObject(); 
 
@@ -117,17 +116,13 @@ public class Plot : MonoBehaviour
             	parentLookAt.transform.localPosition = new Vector3( (float)point.Components[0],(float)point.Components[1],(float) point.Components[2]);
             	parentLookAt.transform.localRotation = Quaternion.identity;
 			 
-
  				dataPoint.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
 				dataPoint.GetComponent<Renderer>().material.color = Color.black;
-				dataPoint.GetComponent<Renderer>().material.SetColor("_EmissionColor", GetColorByCluster(clusterId));
-
-                //dataPoint.AddComponent<LookAtPlayerBehaviour>();
+				dataPoint.GetComponent<Renderer>().material.SetColor("_EmissionColor", GetColorByCluster(clusterId));              
 			}
 
             clusterGameObject.AddComponent<ClusterBoundsCalculator>();
-			clusterId++;
-			Debug.Log(cluster.Centroid);
+			clusterId++; 
 			centroids.Add(cluster.Centroid);
         }
 
