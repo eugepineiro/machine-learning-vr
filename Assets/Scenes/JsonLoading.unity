@@ -476,3 +476,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _configFilePath: Assets/Input/config.json
+  _pointPrefab: {fileID: 0}

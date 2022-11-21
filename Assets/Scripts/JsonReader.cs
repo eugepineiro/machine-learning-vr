@@ -14,18 +14,18 @@ public class JsonReader : MonoBehaviour
     }
 
     private class ClusterPoint {
-        public decimal X;
-        public decimal Y;
-        public decimal Z;
+        public float X;
+        public float Y;
+        public float Z;
 
         public int Cluster;
 
         public static ClusterPoint FromCsv(string csvLine) {
             string[] values = csvLine.Split(',');
             ClusterPoint point = new ClusterPoint();
-            point.X = Convert.ToDecimal(values[0]);
-            point.Y = Convert.ToDecimal(values[1]);
-            point.Z = Convert.ToDecimal(values[2]);
+            point.X = (float) Convert.ToDouble(values[0]);
+            point.Y = (float) Convert.ToDouble(values[1]);
+            point.Z = (float) Convert.ToDouble(values[2]);
             point.Cluster = Convert.ToInt32(values[3]);
             return point;
         }
@@ -38,6 +38,13 @@ public class JsonReader : MonoBehaviour
     [SerializeField] public string FilePath => _configFilePath;
     [SerializeField] private string _configFilePath;
 
+    [SerializeField] public GameObject PointPrefab => _pointPrefab;
+    [SerializeField] private GameObject _pointPrefab;
+
+    private Color GetColorByCluster(int cluster) {
+        Color[] colors = new Color[] { Color.red, Color.blue, Color.green };
+        return colors[cluster - 1];
+    }
 
     void Start()
     {
@@ -54,8 +61,12 @@ public class JsonReader : MonoBehaviour
 
         Debug.Log(points);
 
-        foreach (ClusterPoint point in points) {
-            Debug.Log(point);
+        foreach (ClusterPoint p in points) {
+            GameObject dataPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            dataPoint.transform.parent = transform;
+            dataPoint.transform.localPosition = new Vector3(p.X, p.Y, p.Z);
+            dataPoint.transform.localRotation = Quaternion.identity;
+            dataPoint.GetComponent<Renderer>().material.color = GetColorByCluster(p.Cluster);
         }
     }
  
