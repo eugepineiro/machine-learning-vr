@@ -1356,16 +1356,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225c99e4b1e342fd9fd1a30af167772d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveUp: 119
-  _moveDown: 115
+  _moveUp: 113
+  _moveDown: 101
   _moveLeft: 97
   _moveRight: 100
   _rotateUp: 273
   _rotateDown: 274
   _rotateLeft: 276
   _rotateRight: 275
-  _zoomIn: 43
-  _zoomOut: 45
+  _zoomIn: 119
+  _zoomOut: 115
   _reset: 114
   _configFilePath: Assets/Input/config.json
   _dataPointPrefab: {fileID: 3391840543799476237, guid: e34a5d16ef4184bbcadd2056c47d370a, type: 3}

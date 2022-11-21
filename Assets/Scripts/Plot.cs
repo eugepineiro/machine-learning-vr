@@ -11,8 +11,8 @@ public class Plot : MonoBehaviour
 {
   
     // Travel and Rotation Movement
-    [SerializeField] private KeyCode _moveUp = KeyCode.W;
-    [SerializeField] private KeyCode _moveDown = KeyCode.S;
+    [SerializeField] private KeyCode _moveUp = KeyCode.Q;
+    [SerializeField] private KeyCode _moveDown = KeyCode.E;
     [SerializeField] private KeyCode _moveLeft = KeyCode.A;
     [SerializeField] private KeyCode _moveRight = KeyCode.D;
     
@@ -21,8 +21,8 @@ public class Plot : MonoBehaviour
     [SerializeField] private KeyCode _rotateLeft = KeyCode.LeftArrow;
     [SerializeField] private KeyCode _rotateRight = KeyCode.RightArrow;
     
-    [SerializeField] private KeyCode _zoomIn = KeyCode.Plus;
-    [SerializeField] private KeyCode _zoomOut = KeyCode.Minus;
+    [SerializeField] private KeyCode _zoomIn = KeyCode.W;
+    [SerializeField] private KeyCode _zoomOut = KeyCode.S;
     [SerializeField] private KeyCode _reset = KeyCode.R;
 
     [SerializeField] public string FilePath => _configFilePath;
