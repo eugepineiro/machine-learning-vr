@@ -5,10 +5,6 @@ using System.Linq;
 using UnityEngine; 
 using System;
 using KMeans;
-// K-means clustering demo. ('Lloyd's algorithm')
-// Coded using static methods. Normal error-checking removed for clarity.
-// This code can be used in at least two ways. You can do a copy-paste and then insert the code into some system that uses clustering.
-// Or you can wrap the code up in a Class Library. The single public method is Cluster().
 
 namespace ClusteringKMeans
 {

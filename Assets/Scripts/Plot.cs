@@ -98,18 +98,18 @@ public class Plot : MonoBehaviour
             clusterTransform.parent = transform;
             clusterTransform.localPosition = Vector3.zero;
             int i = 0;
+			GameObject dataPoint; 
 			foreach (DataVec point in cluster.Points) {
                 //GameObject dataPoint = Instantiate(_dataPointPrefab);
                 
 				GameObject parentLookAt = new GameObject(); 
-				GameObject dataPoint = new GameObject(); 
 
-                parentLookAt.name = $"Point {i}";
+                parentLookAt.name = $"Point Parent {i}";
                 dataPoint = GameObject.CreatePrimitive(PrimitiveType.Quad);
                 dataPoint.GetComponent<MeshRenderer>().material = quadMaterial;
                 dataPoint.transform.localRotation = Quaternion.Euler(0, 180, 0);
                 dataPoint.transform.parent = parentLookAt.transform; 
-				dataPoint.name = $"Point {i++}";
+				dataPoint.name = $"Point Quad {i++}";
                 
                 parentLookAt.AddComponent<LookAtPlayerBehaviour>(); 
 				parentLookAt.transform.parent = clusterTransform;

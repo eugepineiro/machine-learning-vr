@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class RaycastController : MonoBehaviour
 {
     private List<AudioSource> _activeAudioSources;
 	private const float RAYCAST_MAX_DISTANCE = 50.0F; 
+	[SerializeField] private TextMeshProUGUI label;
 
 	void Start() 
 	{ 
-		_activeAudioSources = new List<AudioSource>();
+		_activeAudioSources = new List<AudioSource>(); 
 	}
 
     void Update()
@@ -25,7 +27,7 @@ public class RaycastController : MonoBehaviour
         		if (hit.transform.gameObject.name.Contains("Cluster") )
         		{
             		Debug.Log($"HITTTTTTTTT {hit.transform.gameObject.name}");
-          
+          			label.text = hit.transform.gameObject.name;
             		GameObject audio = GameObject.Find($"Audio{hit.transform.gameObject.name}");
            
             		AudioSource _audioSource = audio.GetComponent<AudioSource>();
