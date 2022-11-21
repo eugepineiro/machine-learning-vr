@@ -26,6 +26,7 @@ public class ClusterBoundsCalculator : MonoBehaviour
 
             box.center = bounds.center - this.transform.position;
             box.size = bounds.size;
+            box.size += new Vector3(0,0,1);
 
             this.transform.rotation = currentRotation;
         }
