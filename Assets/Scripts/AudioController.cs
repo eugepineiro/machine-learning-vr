@@ -68,21 +68,6 @@ public class AudioController : MonoBehaviour
         return audioClips;
 
     }
-    
-    private static List<List<float>> getCentroids()
-    {
-
-        List<List<float>> centroids = new List<List<float>>();
- 
-        centroids.Add(new List<float>() {-3.5F, 2, 6.5F}); //TODO dont hardcode
-        centroids.Add(new List<float>() {-2.7F, 4, -7F});
-        centroids.Add(new List<float>() {4.3F, 1.7F, -5.5F});
-        centroids.Add(new List<float>() {6, -3, 2.7F});
-        centroids.Add(new List<float>() {-2.6F, 0.4F, -7F}); 
-
-        return centroids;
-
-    }
 }
     
 }
