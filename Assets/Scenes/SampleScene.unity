@@ -1368,6 +1368,7 @@ MonoBehaviour:
   _reset: 114
   _configFilePath: Assets/Input/config.json
   _pointPrefab: {fileID: 0}
+  _dataPointPrefab: {fileID: 4970533956870116569, guid: 0b055a9cd91f2472a9e7bd6d50fb046a, type: 3}
 --- !u!1001 &1598353623
 PrefabInstance:
   m_ObjectHideFlags: 0

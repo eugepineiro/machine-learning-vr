@@ -27,10 +27,8 @@ public class Plot : MonoBehaviour
     [SerializeField] public string FilePath => _configFilePath;
     [SerializeField] private string _configFilePath;
 
-    [SerializeField] public GameObject PointPrefab => _pointPrefab;
-    [SerializeField] private GameObject _pointPrefab;
-
-
+    [SerializeField] public GameObject DataPointPrefab => _dataPointPrefab;
+    [SerializeField] private GameObject _dataPointPrefab;
     
     private Vector3 _horizontalForward;
     private Vector3 _forward;
@@ -94,9 +92,11 @@ public class Plot : MonoBehaviour
             Transform clusterTransform = clusterGameObject.transform;
             clusterTransform.parent = transform;
             clusterTransform.localPosition = Vector3.zero;
+            int i = 0;
+			foreach (DataVec point in cluster.Points) {
+                GameObject dataPoint = Instantiate(_dataPointPrefab);
+                dataPoint.name = $"Cluster Point ${i++}";
 
-			foreach (DataVec point in cluster.Points) { 
-           		GameObject dataPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             	dataPoint.transform.parent = clusterTransform;
             	dataPoint.transform.localPosition = new Vector3( (float)point.Components[0],(float)point.Components[1],(float) point.Components[2]);
             	dataPoint.transform.localRotation = Quaternion.identity;
@@ -104,6 +104,8 @@ public class Plot : MonoBehaviour
  				dataPoint.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
 				dataPoint.GetComponent<Renderer>().material.color = Color.black;
 				dataPoint.GetComponent<Renderer>().material.SetColor("_EmissionColor", GetColorByCluster(clusterId));
+
+                dataPoint.AddComponent<LookAtPlayerBehaviour>();
 			}
 
             clusterGameObject.AddComponent<ClusterBoundsCalculator>();
