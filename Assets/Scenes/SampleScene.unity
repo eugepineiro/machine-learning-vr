@@ -1368,7 +1368,8 @@ MonoBehaviour:
   _zoomOut: 45
   _reset: 114
   _configFilePath: Assets/Input/config.json
-  _pointPrefab: {fileID: 0}
+  _dataPointPrefab: {fileID: 3391840543799476237, guid: e34a5d16ef4184bbcadd2056c47d370a, type: 3}
+  quadMaterial: {fileID: 2100000, guid: 0b847161e90c5250f9920dc938e45725, type: 2}
 --- !u!114 &1413741864
 MonoBehaviour:
   m_ObjectHideFlags: 0
