@@ -41,6 +41,7 @@ public class Plot : MonoBehaviour
     private Quaternion _initialRotation;
     private Vector3 _intialScale;
 	private double _maxPosition;
+
     void Start()
     {
         _movementController = GetComponent<MovementController>(); 
