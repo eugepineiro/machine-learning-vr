@@ -87,7 +87,7 @@ public class Plot : MonoBehaviour
 
         Debug.Log(points);
 		
-		Cluster[] clusters = KMeansAlgorithm.Run(points); // KMeans
+		Cluster[] clusters = KMeansAlgorithm.Run(points, config.K); // KMeans
 		int clusterId = 1;
         foreach (Cluster cluster in clusters) {
 			foreach (DataVec point in cluster.Points) { 
@@ -111,7 +111,7 @@ public class Plot : MonoBehaviour
         Color[] colors = new Color[] { 
 			new Color(0.48F, 0F, 1, 1), 
 			new Color(0.0927F, 0.4852F, 0.2416F, 0),
-			new Color(0.0927F, 0.4852F, 0.2416F, 1), 
+			new Color(0.01F, 1F, 0.2F, 1), 
 			new Color(0.0927F, 0.4852F, 0.2416F,1)
 
 		 };
