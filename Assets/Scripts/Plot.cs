@@ -37,10 +37,12 @@ public class Plot : MonoBehaviour
     [SerializeField] private ParticleSystem.Particle[] _particles;
     [SerializeField] private List<ClusterPoint> _points;
 
-    [SerializeField] private Cluster[] _clusters;
+    [SerializeField] private Cluster[][] _clusters;
 
     [SerializeField] public Material PointMaterial => _pointMaterial;
     [SerializeField] private Material _pointMaterial;
+    
+    private readonly int MAX_ITERATIONS = 100;
 
     private JsonConfig _config;
 
@@ -52,6 +54,12 @@ public class Plot : MonoBehaviour
     private Quaternion _initialRotation;
     private Vector3 _intialScale;
     private double _maxPosition;
+    private int iterations;
+ 
+    
+    private float timer = 0; 
+    private int i_iteration = 0; 
+    private List<GameObject> _quads = new List<GameObject>();
 
     void Start()
     {
@@ -63,10 +71,38 @@ public class Plot : MonoBehaviour
         _audioController = GetComponent<AudioController>();
 
         InitPlot();
+        Debug.Log("DEBUG");
+        for (int i = 0; i < iterations; i++)
+        {
+            int clusterId = 0;
+            foreach (Cluster cluster in _clusters[i])
+            {
+                foreach (DataVec point in cluster.Points)
+                {
+                    Debug.Log($"it {i} || { clusterId} || {point.Components[0]},{point.Components[1]},{point.Components[2]}");
+                }
+
+                clusterId++;
+            }
+            
+        }
+       
+
+        Debug.Log("START");
     }
 
     void Update()
     {
+      
+        timer += Time.deltaTime;
+        
+        if (timer > 2F && i_iteration < iterations )
+        {
+            Debug.Log(timer);
+            UpdateColors(i_iteration++);
+            timer = 0;
+        } 
+        
         /* Translate */
         if (Input.GetKey(_moveUp) && transform.position.y < _maxPosition * 2) _movementController.Travel(new Vector3(0, 1, 0));
         if (Input.GetKey(_moveDown) && transform.position.y > _maxPosition) _movementController.Travel(new Vector3(0, -1, 0));
@@ -85,7 +121,7 @@ public class Plot : MonoBehaviour
 
         /* Reset initial postion, rotation and scale */
         if (Input.GetKey(_reset)) _movementController.Reset(_initialPosition, _initialRotation, _intialScale);
-
+        
     }
     private void InitPlot()
     {
@@ -102,11 +138,14 @@ public class Plot : MonoBehaviour
 
         Debug.Log(_points);
 
-        _clusters = KMeansAlgorithm.Run(_points, _config.K); // KMeans
+        (_clusters, iterations) = KMeansAlgorithm.Run(_points, _config.K); // KMeans
         int clusterId = 1;
         List<DataVec> centroids = new List<DataVec>();
-        foreach (Cluster cluster in _clusters)
-        {
+        Debug.Log($"_CLUSTERS {_clusters[1][0].Centroid}");
+        
+        foreach (Cluster cluster in _clusters[iterations-1])
+        { // Create points for first K-Means iteration
+            
             GameObject clusterGameObject = new GameObject($"Cluster{clusterId}");
             Transform clusterTransform = clusterGameObject.transform;
             clusterTransform.parent = transform;
@@ -128,12 +167,15 @@ public class Plot : MonoBehaviour
                 parentLookAt.AddComponent<LookAtPlayerBehaviour>();
                 parentLookAt.transform.parent = clusterTransform;
                 dataPoint.transform.parent = parentLookAt.transform;
-                parentLookAt.transform.localPosition = new Vector3((float)point.Components[0], (float)point.Components[1], (float)point.Components[2]);
+                parentLookAt.transform.localPosition = new Vector3((float)point.Components[0],
+                    (float)point.Components[1], (float)point.Components[2]);
                 parentLookAt.transform.localRotation = Quaternion.identity;
 
                 dataPoint.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
                 dataPoint.GetComponent<Renderer>().material.color = Color.black;
-                dataPoint.GetComponent<Renderer>().material.SetColor("_EmissionColor", GetColorByCluster(clusterId));
+                dataPoint.GetComponent<Renderer>().material
+                    .SetColor("_EmissionColor", GetColorByCluster(clusterId));
+                _quads.Add(dataPoint);
             }
 
             clusterGameObject.AddComponent<ClusterBoundsCalculator>();
@@ -152,11 +194,49 @@ public class Plot : MonoBehaviour
             clusterId++;
             centroids.Add(cluster.Centroid);
         }
-
+         
         _audioController.LoadAudios(_config.K, centroids);
     }
 
+    private void UpdateColors(int i)
+    {
+        int clusterId = 1;
+        
+        foreach (Cluster cluster in _clusters[i])
+        { // Create points for each K-Means iteration
+            
+            GameObject dataPoint;
+            foreach (DataVec point in cluster.Points)
+            {
+                dataPoint = FindQuad(point); 
+                dataPoint.GetComponent<Renderer>().material
+                    .SetColor("_EmissionColor", GetColorByCluster(clusterId));
+            }
+            
+            clusterId++; 
+        }
+        
+    }
 
+    private IEnumerator WaitSeconds()
+    {
+        yield return new WaitForSecondsRealtime(4);
+    }
+    private GameObject FindQuad(DataVec point)
+    {
+        foreach (GameObject quad in _quads)
+        {
+            float distance = Vector3.Distance(quad.transform.parent.transform.localPosition, 
+                new Vector3((float)point.Components[0], (float)point.Components[1], (float)point.Components[2]));
+            if (distance < 0.001F)
+            {
+                return quad;
+            }
+        }
+
+        return null;
+    }
+    
     private Color GetColorByCluster(int cluster)
     {
         Color[] colors = new Color[] {
@@ -209,7 +289,7 @@ public class Plot : MonoBehaviour
             int index = 0;
             for (int i = 0; i < _clusters.Count(); i++)
             {
-                foreach (DataVec p in _clusters[i].Points)
+                foreach (DataVec p in _clusters[MAX_ITERATIONS-1][i].Points)
                 {
                     _particles[index].position = new Vector3((float)p.Components[0], (float)p.Components[1], (float)p.Components[2]);
                     _particles[index].velocity = Vector3.zero;

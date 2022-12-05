@@ -1,5 +1,5 @@
 using System;
-
+using UnityEngine; 
 
 namespace KMeans
 {
@@ -45,12 +45,13 @@ namespace KMeans
         /// </summary>
         /// <param name="maxDiv">Mean acceptable divergence</param>
         /// <returns>Array of clusters, each containing centroid and a list of assigned data points.</returns>
-        public Cluster[] Compute(double maxDiv = 0.0001d)
+        public (Cluster[][], int) Compute(double maxDiv = 0.0001d)
         {
             int iterations = 0;
+            Cluster[][] clusters_arr = new Cluster[MAX_ITERATIONS][];
             while(iterations < MAX_ITERATIONS)
             {
-                iterations++;
+               
                 //clear points in clusters
                 for (int iCluster = 0; iCluster < m_Clusters.Length; ++iCluster)
                 {
@@ -82,8 +83,17 @@ namespace KMeans
                 Console.WriteLine("Mean error = " + distChanged);
                 if (distChanged/m_Clusters.Length < maxDiv)
                     break;
+                
+                for (int iCluster = 0; iCluster < m_Clusters.Length; ++iCluster)
+                {
+                    clusters_arr[iterations] = new Cluster[m_K]; 
+                    Array.Copy(m_Clusters, clusters_arr[iterations] , m_Clusters.Length);
+                }
+                iterations++;
+
             }
-            return m_Clusters;
+ 
+            return (clusters_arr, iterations);
         }
 
         /// <summary>
