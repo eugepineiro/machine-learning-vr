@@ -1,5 +1,6 @@
 using System;
 using UnityEngine; 
+using System.Collections.Generic;
 
 namespace KMeans
 {
@@ -78,6 +79,16 @@ namespace KMeans
                 
                 clusters_arr[iterations] = new Cluster[m_K]; 
                 Array.Copy(m_Clusters, clusters_arr[iterations] , m_Clusters.Length);
+                for (int iCluster = 0; iCluster < m_Clusters.Length; ++ iCluster)
+                {
+                    List<DataVec> p_aux = new List<DataVec>();
+                    foreach (DataVec point in m_Clusters[iCluster].Points)
+                    {
+                        p_aux.Add(DataVec.DeepCopy(point));
+                    }
+                    clusters_arr[iterations][iCluster].Points = p_aux;
+                }
+
                 
                 if(iterations == 1){
                     Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
