@@ -72,7 +72,7 @@ public class Plot : MonoBehaviour
 
         InitPlot();
         Debug.Log("DEBUG");
-        for (int i = 0; i < iterations; i++)
+        for (int i = 0; i <= iterations; i++)
         {
             int clusterId = 0;
             foreach (Cluster cluster in _clusters[i])
@@ -96,7 +96,7 @@ public class Plot : MonoBehaviour
       
         timer += Time.deltaTime;
         
-        if (timer > 2F && i_iteration < iterations )
+        if (timer > 2F && i_iteration <= iterations )
         {
             Debug.Log(timer);
             UpdateColors(i_iteration++);
@@ -143,7 +143,7 @@ public class Plot : MonoBehaviour
         List<DataVec> centroids = new List<DataVec>();
         Debug.Log($"_CLUSTERS {_clusters[1][0].Centroid}");
         
-        foreach (Cluster cluster in _clusters[iterations-1])
+        foreach (Cluster cluster in _clusters[iterations])
         { // Create points for first K-Means iteration
             
             GameObject clusterGameObject = new GameObject($"Cluster{clusterId}");
@@ -289,7 +289,7 @@ public class Plot : MonoBehaviour
             int index = 0;
             for (int i = 0; i < _clusters.Count(); i++)
             {
-                foreach (DataVec p in _clusters[MAX_ITERATIONS-1][i].Points)
+                foreach (DataVec p in _clusters[iterations][i].Points)
                 {
                     _particles[index].position = new Vector3((float)p.Components[0], (float)p.Components[1], (float)p.Components[2]);
                     _particles[index].velocity = Vector3.zero;

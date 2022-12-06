@@ -1,5 +1,5 @@
 {
     "K": 6,
-    "CsvPath": "Assets/Input/points_big.csv",
+    "CsvPath": "Assets/Input/points.csv",
     "ParticleSystem": false
 }

@@ -72,7 +72,30 @@ namespace KMeans
                         }
                     }
                     m_Clusters[cluster].Points.Add(p_DataPoints[iPoint]);
+                    Debug.Log($"IN KMEANS - {iterations}  || {cluster}  || {p_DataPoints[iPoint].Components[0]},{p_DataPoints[iPoint].Components[1]},{p_DataPoints[iPoint].Components[2]}");
+                }
 
+                
+                clusters_arr[iterations] = new Cluster[m_K]; 
+                Array.Copy(m_Clusters, clusters_arr[iterations] , m_Clusters.Length);
+                
+                if(iterations == 1){
+                    Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                    for (int i = 0; i <= iterations; i++)
+                    {
+                        int clusterId = 0;
+                        foreach (Cluster cluster in clusters_arr[i])
+                        {
+                            foreach (DataVec point in cluster.Points)
+                            {
+                                Debug.Log($"it {i} || { clusterId} || {point.Components[0]},{point.Components[1]},{point.Components[2]}");
+                            }
+
+                            clusterId++;
+                        }
+                        
+                    }
+                    Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                 }
                 // recalculate centriods
                 double distChanged = 0;
@@ -84,11 +107,6 @@ namespace KMeans
                 if (distChanged/m_Clusters.Length < maxDiv)
                     break;
                 
-                for (int iCluster = 0; iCluster < m_Clusters.Length; ++iCluster)
-                {
-                    clusters_arr[iterations] = new Cluster[m_K]; 
-                    Array.Copy(m_Clusters, clusters_arr[iterations] , m_Clusters.Length);
-                }
                 iterations++;
 
             }
