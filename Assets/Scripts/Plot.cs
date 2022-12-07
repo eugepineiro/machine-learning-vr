@@ -80,7 +80,7 @@ public class Plot : MonoBehaviour
       
         timer += Time.deltaTime;
         Debug.Log("Started updating colors");
-        if (timer > 1F && i_iteration <= iterations )
+        if (!_config.ParticleSystem && timer > 1F && i_iteration <= iterations )
         {
             Debug.Log(timer);
             UpdateColors(i_iteration++);
@@ -125,8 +125,7 @@ public class Plot : MonoBehaviour
 
         (_clusters, iterations) = KMeansAlgorithm.Run(_points, _config.K); // KMeans
         int clusterId = 1;
-        List<DataVec> centroids = new List<DataVec>();
-        //Debug.Log($"_CLUSTERS {_clusters[1][0].Centroid}");
+        List<DataVec> centroids = new List<DataVec>(); 
         
         foreach (Cluster cluster in _clusters[iterations])
         { // Create points for first K-Means iteration
@@ -272,7 +271,7 @@ public class Plot : MonoBehaviour
             _particles = new ParticleSystem.Particle[_points.Count];
             int aliveParticles = _particleSystem.GetParticles(_particles);
             int index = 0;
-            for (int i = 0; i < _clusters.Count(); i++)
+            for (int i = 0; i < _clusters[iterations].Count(); i++)
             {
                 foreach (DataVec p in _clusters[iterations][i].Points)
                 {
