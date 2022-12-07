@@ -41,8 +41,10 @@ public class Plot : MonoBehaviour
 
     [SerializeField] public Material PointMaterial => _pointMaterial;
     [SerializeField] private Material _pointMaterial;
-    
-    private readonly int MAX_ITERATIONS = 100;
+
+	[SerializeField] public Transform CameraPosition => _cameraPosition;
+    [SerializeField] private Transform  _cameraPosition;
+     
 
     private JsonConfig _config;
 
@@ -71,24 +73,6 @@ public class Plot : MonoBehaviour
         _audioController = GetComponent<AudioController>();
 
         InitPlot();
-        /*Debug.Log("DEBUG");
-        for (int i = 0; i <= iterations; i++)
-        {
-            int clusterId = 0;
-            foreach (Cluster cluster in _clusters[i])
-            {
-                foreach (DataVec point in cluster.Points)
-                {
-                    Debug.Log($"it {i} || { clusterId} || {point.Components[0]},{point.Components[1]},{point.Components[2]}");
-                }
-
-                clusterId++;
-            }
-            
-        }
-       
-
-        Debug.Log("START"); */
     }
 
     void Update()
@@ -103,12 +87,12 @@ public class Plot : MonoBehaviour
             timer = 0;
         } 
         if( i_iteration > iterations ) Debug.Log("Ended updating colors");
-
+		
         /* Translate */
-        if (Input.GetKey(_moveUp) && transform.position.y < _maxPosition * 2) _movementController.Travel(new Vector3(0, 1, 0));
-        if (Input.GetKey(_moveDown) && transform.position.y > _maxPosition) _movementController.Travel(new Vector3(0, -1, 0));
-        if (Input.GetKey(_moveLeft) && transform.position.x > -_maxPosition * 2) _movementController.Travel(new Vector3(-1, 0, 0));
-        if (Input.GetKey(_moveRight) && transform.position.x < _maxPosition * 2) _movementController.Travel(new Vector3(1, 0, 0));
+        if (Input.GetKey(_moveUp) && _cameraPosition.position.y < _maxPosition * 2) _movementController.Travel(new Vector3(0, 1, 0));
+        if (Input.GetKey(_moveDown) && _cameraPosition.position.y > _maxPosition) _movementController.Travel(new Vector3(0, -1, 0));
+        if (Input.GetKey(_moveLeft) && _cameraPosition.position.x > -_maxPosition * 2) _movementController.Travel(new Vector3(-1, 0, 0));
+        if (Input.GetKey(_moveRight) && _cameraPosition.position.x < _maxPosition * 2) _movementController.Travel(new Vector3(1, 0, 0));
 
         /* Rotate */
         if (Input.GetKey(_rotateUp)) _movementController.Rotate(new Vector3(0, 1, 0));

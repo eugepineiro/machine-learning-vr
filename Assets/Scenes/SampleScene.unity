@@ -1509,6 +1509,7 @@ MonoBehaviour:
   quadMaterial: {fileID: 2100000, guid: 0b847161e90c5250f9920dc938e45725, type: 2}
   _particleSystem: {fileID: 0}
   _pointMaterial: {fileID: 2100000, guid: a2e03240f867a4a2ca6ac03b5bb3d0c5, type: 2}
+  _cameraPosition: {fileID: 963194228}
 --- !u!114 &1413741864
 MonoBehaviour:
   m_ObjectHideFlags: 0
