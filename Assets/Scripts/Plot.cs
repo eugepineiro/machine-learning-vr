@@ -71,7 +71,7 @@ public class Plot : MonoBehaviour
         _audioController = GetComponent<AudioController>();
 
         InitPlot();
-        Debug.Log("DEBUG");
+        /*Debug.Log("DEBUG");
         for (int i = 0; i <= iterations; i++)
         {
             int clusterId = 0;
@@ -88,21 +88,22 @@ public class Plot : MonoBehaviour
         }
        
 
-        Debug.Log("START");
+        Debug.Log("START"); */
     }
 
     void Update()
     {
       
         timer += Time.deltaTime;
-        
-        if (timer > 2F && i_iteration <= iterations )
+        Debug.Log("Started updating colors");
+        if (timer > 1F && i_iteration <= iterations )
         {
             Debug.Log(timer);
             UpdateColors(i_iteration++);
             timer = 0;
         } 
-        
+        if( i_iteration > iterations ) Debug.Log("Ended updating colors");
+
         /* Translate */
         if (Input.GetKey(_moveUp) && transform.position.y < _maxPosition * 2) _movementController.Travel(new Vector3(0, 1, 0));
         if (Input.GetKey(_moveDown) && transform.position.y > _maxPosition) _movementController.Travel(new Vector3(0, -1, 0));
@@ -141,7 +142,7 @@ public class Plot : MonoBehaviour
         (_clusters, iterations) = KMeansAlgorithm.Run(_points, _config.K); // KMeans
         int clusterId = 1;
         List<DataVec> centroids = new List<DataVec>();
-        Debug.Log($"_CLUSTERS {_clusters[1][0].Centroid}");
+        //Debug.Log($"_CLUSTERS {_clusters[1][0].Centroid}");
         
         foreach (Cluster cluster in _clusters[iterations])
         { // Create points for first K-Means iteration

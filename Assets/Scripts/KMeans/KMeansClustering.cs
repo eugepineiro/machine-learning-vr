@@ -73,12 +73,15 @@ namespace KMeans
                         }
                     }
                     m_Clusters[cluster].Points.Add(p_DataPoints[iPoint]);
-                    Debug.Log($"IN KMEANS - {iterations}  || {cluster}  || {p_DataPoints[iPoint].Components[0]},{p_DataPoints[iPoint].Components[1]},{p_DataPoints[iPoint].Components[2]}");
                 }
 
                 
                 clusters_arr[iterations] = new Cluster[m_K]; 
-                Array.Copy(m_Clusters, clusters_arr[iterations] , m_Clusters.Length);
+                for(int i = 0; i < m_K; ++i)
+                {
+                    clusters_arr[iterations][i] = new Cluster();
+                }
+ 
                 for (int iCluster = 0; iCluster < m_Clusters.Length; ++ iCluster)
                 {
                     List<DataVec> p_aux = new List<DataVec>();
@@ -88,31 +91,13 @@ namespace KMeans
                     }
                     clusters_arr[iterations][iCluster].Points = p_aux;
                 }
-
                 
-                if(iterations == 1){
-                    Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                    for (int i = 0; i <= iterations; i++)
-                    {
-                        int clusterId = 0;
-                        foreach (Cluster cluster in clusters_arr[i])
-                        {
-                            foreach (DataVec point in cluster.Points)
-                            {
-                                Debug.Log($"it {i} || { clusterId} || {point.Components[0]},{point.Components[1]},{point.Components[2]}");
-                            }
-
-                            clusterId++;
-                        }
-                        
-                    }
-                    Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                }
                 // recalculate centriods
                 double distChanged = 0;
                 for (int iCluster = 0; iCluster < m_Clusters.Length; ++iCluster)
                 {
                     distChanged += m_Clusters[iCluster].RecalculateCentroid();
+                    clusters_arr[iterations][iCluster].Centroid = m_Clusters[iCluster].Centroid;
                 }
                 Console.WriteLine("Mean error = " + distChanged);
                 if (distChanged/m_Clusters.Length < maxDiv)
