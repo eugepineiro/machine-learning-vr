@@ -7,5 +7,5 @@ public interface IMoveable
     void Travel(Vector3 direction);
     void Rotate(Vector3 direction);
     void Scale(string direction);
-    void Reset(Vector3 initialPosition, Quaternion initialRotation, Vector3 intialScale);
+    void Reset();
 }
