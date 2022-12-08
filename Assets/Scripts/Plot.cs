@@ -105,7 +105,7 @@ public class Plot : MonoBehaviour
         if (Input.GetKey(_zoomOut)) _movementController.Scale("OUT");
 
         /* Reset initial postion, rotation and scale */
-        if (Input.GetKey(_reset)) _movementController.Reset(_initialPosition, _initialRotation, _intialScale);
+        if (Input.GetKey(_reset)) _movementController.Reset();
         
     }
     private void InitPlot()

@@ -38,11 +38,11 @@ public class MovementController : MonoBehaviour, IMoveable
         }
     }
 
-    public void Reset(Vector3 initialPosition, Quaternion initialRotation, Vector3 intialScale)
+    public void Reset()
     {
-        transform.localScale = intialScale;
-        transform.rotation = initialRotation;
         transform.localScale = initialScale;
+        transform.rotation = initialRotation;
+        transform.localPosition = initialPosition;
     }
     
     
