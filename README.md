@@ -31,6 +31,7 @@ To improve experience you can move the plot around the dome.
 - D: Move right
 - Q: Move Up
 - E: Move Down 
+- R: Reset initial position, scale and rotation
 - Keys: Rotate plot 
 
 
