@@ -4,13 +4,14 @@ using UnityEngine;
 using System.IO;
 using System;
 using KMeans;
+
 namespace AudioManager
 {
 
 public class AudioController : MonoBehaviour
 {
    
-    private const int TOTAL_AUDIOS = 89;
+    private const int TOTAL_AUDIOS = 21;
 
     private List<List<float>> _centroids;
     private List<AudioClip> _audioClips;
@@ -42,6 +43,12 @@ public class AudioController : MonoBehaviour
             
             _audioSource = audio.GetComponent<AudioSource>();
             _audioSource.clip = _audioClips[i];
+            _audioSource.maxDistance = 50f;
+            _audioSource.rolloffMode = AudioRolloffMode.Linear;
+
+            SteamAudio.SteamAudioSource steamAudioSource = audio.GetComponent<SteamAudio.SteamAudioSource>();
+            steamAudioSource.distanceAttenuationInput = SteamAudio.DistanceAttenuationInput.CurveDriven; 
+
             //_audioSource.Play();
             
             _audioInstances.Add(audio); // Instantiate audio
@@ -54,7 +61,7 @@ public class AudioController : MonoBehaviour
         int audios_amount = (int) TOTAL_AUDIOS / kClusters;
 
 
-        string[] paths = Directory.GetFiles("Assets/Resources/Audio/piano-mp3/", "*.mp3", SearchOption.AllDirectories); 
+        string[] paths = Directory.GetFiles("Assets/Resources/Audio/mp3/", "*.mp3", SearchOption.AllDirectories); 
 
         List<AudioClip> audioClips = new List<AudioClip>();
         for (int i = 1; i <= kClusters; i++)
@@ -62,7 +69,7 @@ public class AudioController : MonoBehaviour
           
             string path = Path.GetFileNameWithoutExtension(paths[i * audios_amount]);
             
-            audioClips.Add(Resources.Load<AudioClip>( "Audio/piano-mp3/" + path)); 
+            audioClips.Add(Resources.Load<AudioClip>( "Audio/mp3/" + path)); 
         }
 
         return audioClips;
