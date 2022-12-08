@@ -1,5 +1,6 @@
 using System;
-
+using UnityEngine; 
+using System.Collections.Generic;
 
 namespace KMeans
 {
@@ -45,12 +46,13 @@ namespace KMeans
         /// </summary>
         /// <param name="maxDiv">Mean acceptable divergence</param>
         /// <returns>Array of clusters, each containing centroid and a list of assigned data points.</returns>
-        public Cluster[] Compute(double maxDiv = 0.0001d)
+        public (Cluster[][], int) Compute(double maxDiv = 0.0001d)
         {
             int iterations = 0;
+            Cluster[][] clusters_arr = new Cluster[MAX_ITERATIONS][];
             while(iterations < MAX_ITERATIONS)
             {
-                iterations++;
+               
                 //clear points in clusters
                 for (int iCluster = 0; iCluster < m_Clusters.Length; ++iCluster)
                 {
@@ -71,19 +73,41 @@ namespace KMeans
                         }
                     }
                     m_Clusters[cluster].Points.Add(p_DataPoints[iPoint]);
-
                 }
+
+                
+                clusters_arr[iterations] = new Cluster[m_K]; 
+                for(int i = 0; i < m_K; ++i)
+                {
+                    clusters_arr[iterations][i] = new Cluster();
+                }
+ 
+                for (int iCluster = 0; iCluster < m_Clusters.Length; ++ iCluster)
+                {
+                    List<DataVec> p_aux = new List<DataVec>();
+                    foreach (DataVec point in m_Clusters[iCluster].Points)
+                    {
+                        p_aux.Add(DataVec.DeepCopy(point));
+                    }
+                    clusters_arr[iterations][iCluster].Points = p_aux;
+                }
+                
                 // recalculate centriods
                 double distChanged = 0;
                 for (int iCluster = 0; iCluster < m_Clusters.Length; ++iCluster)
                 {
                     distChanged += m_Clusters[iCluster].RecalculateCentroid();
+                    clusters_arr[iterations][iCluster].Centroid = m_Clusters[iCluster].Centroid;
                 }
                 Console.WriteLine("Mean error = " + distChanged);
                 if (distChanged/m_Clusters.Length < maxDiv)
                     break;
+                
+                iterations++;
+
             }
-            return m_Clusters;
+ 
+            return (clusters_arr, iterations);
         }
 
         /// <summary>

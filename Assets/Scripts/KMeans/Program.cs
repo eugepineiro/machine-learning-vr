@@ -13,7 +13,7 @@ namespace KMeans
             List<DataVec> points = ReadTestData();
 
             KMeansClustering cl = new KMeansClustering(points.ToArray(), 15);
-            Cluster[] clusters =  cl.Compute();
+            (Cluster[][] clusters, int iterations) =  cl.Compute();
 
             Console.WriteLine("\n");
             Console.WriteLine("Number of clusters k = " + clusters.Length);

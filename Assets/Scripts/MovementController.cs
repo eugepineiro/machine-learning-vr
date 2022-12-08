@@ -12,6 +12,16 @@ public class MovementController : MonoBehaviour, IMoveable
     private Quaternion initialRotation;
     private Vector3 initialScale;
 
+    private GameObject plot; 
+
+    private void Start()
+    {
+        plot = GameObject.Find("Plot");
+        initialPosition = plot.transform.position;
+        initialRotation = plot.transform.rotation;
+        initialScale = plot.transform.localScale;
+    }
+
     public void Travel(Vector3 direction) => transform.Translate(direction * Time.deltaTime * _movementSpeed); 
 
     public void Rotate(Vector3 direction) => transform.Rotate(direction * Time.deltaTime * _rotationSpeed);

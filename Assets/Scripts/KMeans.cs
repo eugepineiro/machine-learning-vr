@@ -10,15 +10,15 @@ namespace ClusteringKMeans
 {
   class KMeansAlgorithm  
   {
-    public static Cluster[] Run(List<ClusterPoint> pointsInput, int kClusters)
+    public static (Cluster[][], int) Run(List<ClusterPoint> pointsInput, int kClusters)
     {
       List<DataVec> points = MigrateData(pointsInput);
       
       KMeansClustering cl = new KMeansClustering(points.ToArray(), kClusters); // Reference to data points and k (number of clusters)
       
-      Cluster[] clusters =  cl.Compute();  // Perform clasification and return results
-
-      return clusters;
+      (Cluster[][] clusters, int iterations) =  cl.Compute();  // Perform clasification and return results
+	 
+      return (clusters, iterations);
 
     } 
     static List<DataVec> MigrateData(List<ClusterPoint> points)
