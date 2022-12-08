@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using System;
 using KMeans;
+
 namespace AudioManager
 {
 
@@ -42,6 +43,12 @@ public class AudioController : MonoBehaviour
             
             _audioSource = audio.GetComponent<AudioSource>();
             _audioSource.clip = _audioClips[i];
+            _audioSource.maxDistance = 50f;
+            _audioSource.rolloffMode = AudioRolloffMode.Linear;
+
+            SteamAudio.SteamAudioSource steamAudioSource = audio.GetComponent<SteamAudio.SteamAudioSource>();
+            steamAudioSource.distanceAttenuationInput = SteamAudio.DistanceAttenuationInput.CurveDriven; 
+
             //_audioSource.Play();
             
             _audioInstances.Add(audio); // Instantiate audio
