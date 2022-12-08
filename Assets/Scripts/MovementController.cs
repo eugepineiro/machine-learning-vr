@@ -12,6 +12,16 @@ public class MovementController : MonoBehaviour, IMoveable
     private Quaternion initialRotation;
     private Vector3 initialScale;
 
+    private GameObject plot; 
+
+    private void Start()
+    {
+        plot = GameObject.Find("Plot");
+        initialPosition = plot.transform.position;
+        initialRotation = plot.transform.rotation;
+        initialScale = plot.transform.localScale;
+    }
+
     public void Travel(Vector3 direction) => transform.Translate(direction * Time.deltaTime * _movementSpeed); 
 
     public void Rotate(Vector3 direction) => transform.Rotate(direction * Time.deltaTime * _rotationSpeed);
@@ -28,11 +38,11 @@ public class MovementController : MonoBehaviour, IMoveable
         }
     }
 
-    public void Reset(Vector3 initialPosition, Quaternion initialRotation, Vector3 intialScale)
+    public void Reset()
     {
-        transform.localScale = intialScale;
-        transform.rotation = initialRotation;
         transform.localScale = initialScale;
+        transform.rotation = initialRotation;
+        transform.localPosition = initialPosition;
     }
     
     
