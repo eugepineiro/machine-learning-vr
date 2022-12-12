@@ -1497,13 +1497,14 @@ MonoBehaviour:
   _moveDown: 101
   _moveLeft: 97
   _moveRight: 100
+  _moveForward: 119
+  _moveBackward: 115
   _rotateUp: 273
   _rotateDown: 274
   _rotateLeft: 276
   _rotateRight: 275
-  _zoomIn: 119
-  _zoomOut: 115
-  _reset: 114
+  _zoomIn: 114
+  _zoomOut: 102
   _configFilePath: Assets/Input/config.json
   _dataPointPrefab: {fileID: 3391840543799476237, guid: e34a5d16ef4184bbcadd2056c47d370a, type: 3}
   quadMaterial: {fileID: 2100000, guid: 0b847161e90c5250f9920dc938e45725, type: 2}

@@ -15,15 +15,17 @@ public class Plot : MonoBehaviour
     [SerializeField] private KeyCode _moveDown = KeyCode.E;
     [SerializeField] private KeyCode _moveLeft = KeyCode.A;
     [SerializeField] private KeyCode _moveRight = KeyCode.D;
+    [SerializeField] private KeyCode _moveForward = KeyCode.W;
+    [SerializeField] private KeyCode _moveBackward = KeyCode.S;
 
     [SerializeField] private KeyCode _rotateUp = KeyCode.UpArrow;
     [SerializeField] private KeyCode _rotateDown = KeyCode.DownArrow;
     [SerializeField] private KeyCode _rotateLeft = KeyCode.LeftArrow;
     [SerializeField] private KeyCode _rotateRight = KeyCode.RightArrow;
 
-    [SerializeField] private KeyCode _zoomIn = KeyCode.W;
-    [SerializeField] private KeyCode _zoomOut = KeyCode.S;
-    [SerializeField] private KeyCode _reset = KeyCode.R;
+    [SerializeField] private KeyCode _zoomIn = KeyCode.R;
+    [SerializeField] private KeyCode _zoomOut = KeyCode.F;
+    //[SerializeField] private KeyCode _reset = KeyCode.C;
 
     [SerializeField] public string FilePath => _configFilePath;
     [SerializeField] private string _configFilePath;
@@ -89,10 +91,12 @@ public class Plot : MonoBehaviour
         if( i_iteration > iterations ) Debug.Log("Ended updating colors");
 		
         /* Translate */
-        if (Input.GetKey(_moveUp) && _cameraPosition.position.y < _maxPosition * 2) _movementController.Travel(new Vector3(0, 1, 0));
-        if (Input.GetKey(_moveDown) && _cameraPosition.position.y > _maxPosition) _movementController.Travel(new Vector3(0, -1, 0));
-        if (Input.GetKey(_moveLeft) && _cameraPosition.position.x > -_maxPosition * 2) _movementController.Travel(new Vector3(-1, 0, 0));
-        if (Input.GetKey(_moveRight) && _cameraPosition.position.x < _maxPosition * 2) _movementController.Travel(new Vector3(1, 0, 0));
+        if (Input.GetKey(_moveUp) && this.transform.position.y < _maxPosition * 2) _movementController.Travel(new Vector3(0, 1, 0));
+        if (Input.GetKey(_moveDown) && this.transform.position.y > _maxPosition) _movementController.Travel( new Vector3(0, -1, 0));
+        if (Input.GetKey(_moveLeft) && this.transform.position.x > -_maxPosition * 2) _movementController.Travel(new Vector3(-1, 0, 0));
+        if (Input.GetKey(_moveRight) && this.transform.position.x < _maxPosition * 2) _movementController.Travel( new Vector3(1, 0, 0));
+        if (Input.GetKey(_moveForward)) _movementController.Travel( new Vector3(0, 0, 1));
+        if (Input.GetKey(_moveBackward)) _movementController.Travel(new Vector3(0, 0, -1));
 
         /* Rotate */
         if (Input.GetKey(_rotateUp)) _movementController.Rotate(new Vector3(0, 1, 0));
@@ -105,7 +109,7 @@ public class Plot : MonoBehaviour
         if (Input.GetKey(_zoomOut)) _movementController.Scale("OUT");
 
         /* Reset initial postion, rotation and scale */
-        if (Input.GetKey(_reset)) _movementController.Reset();
+        //if (Input.GetKey(_reset)) _movementController.Reset();
         
     }
     private void InitPlot()
