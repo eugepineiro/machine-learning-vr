@@ -25,13 +25,14 @@ The program receives as input a JSON file `Assets/Input/config.json` to customiz
 ## Plot Interaction
 To improve experience you can move the plot around the dome.
 
-- W: zoom in
+- W: Move forward
 - A: Move left 
-- S: Zoom out
+- S: Move backward
 - D: Move right
 - Q: Move Up
 - E: Move Down 
-- R: Reset initial position, scale and rotation
+- F: Scale to make plot smaller
+- R: Scale to make plot bigger
 - Arrow Keys: Rotate plot 
 
 
