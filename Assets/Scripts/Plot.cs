@@ -24,8 +24,7 @@ public class Plot : MonoBehaviour
     [SerializeField] private KeyCode _rotateRight = KeyCode.RightArrow;
 
     [SerializeField] private KeyCode _zoomIn = KeyCode.R;
-    [SerializeField] private KeyCode _zoomOut = KeyCode.F;
-    //[SerializeField] private KeyCode _reset = KeyCode.C;
+    [SerializeField] private KeyCode _zoomOut = KeyCode.F; 
 
     [SerializeField] public string FilePath => _configFilePath;
     [SerializeField] private string _configFilePath;
@@ -84,7 +83,6 @@ public class Plot : MonoBehaviour
         Debug.Log("Started updating colors");
         if (!_config.ParticleSystem && timer > 1F && i_iteration <= iterations )
         {
-            Debug.Log(timer);
             UpdateColors(i_iteration++);
             timer = 0;
         } 
@@ -93,11 +91,13 @@ public class Plot : MonoBehaviour
         /* Translate */
         if (Input.GetKey(_moveUp) && this.transform.position.y < _maxPosition * 2) _movementController.Travel(new Vector3(0, 1, 0));
         if (Input.GetKey(_moveDown) && this.transform.position.y > _maxPosition) _movementController.Travel( new Vector3(0, -1, 0));
-        if (Input.GetKey(_moveLeft) && this.transform.position.x > -_maxPosition * 2) _movementController.Travel(new Vector3(-1, 0, 0));
-        if (Input.GetKey(_moveRight) && this.transform.position.x < _maxPosition * 2) _movementController.Travel( new Vector3(1, 0, 0));
-        if (Input.GetKey(_moveForward)) _movementController.Travel( new Vector3(0, 0, 1));
-        if (Input.GetKey(_moveBackward)) _movementController.Travel(new Vector3(0, 0, -1));
-
+        
+        if (Input.GetKey(_moveLeft) && this.transform.position.x > -_maxPosition * 2) _movementController.Travel(-new Vector3(_cameraPosition.right.x, 0,_cameraPosition.right.z));
+        if (Input.GetKey(_moveRight) && this.transform.position.x < _maxPosition * 2) _movementController.Travel( new Vector3(_cameraPosition.right.x, 0, _cameraPosition.right.z));
+        
+        if (Input.GetKey(_moveForward)) _movementController.Travel(-new Vector3(_cameraPosition.forward.x, 0, _cameraPosition.forward.z));
+        if (Input.GetKey(_moveBackward)) _movementController.Travel(new Vector3(_cameraPosition.forward.x, 0, _cameraPosition.forward.z));
+         
         /* Rotate */
         if (Input.GetKey(_rotateUp)) _movementController.Rotate(new Vector3(0, 1, 0));
         if (Input.GetKey(_rotateDown)) _movementController.Rotate(new Vector3(0, -1, 0));
